@@ -1,0 +1,76 @@
+        [root@localhost ~]# yum search java
+ 
+       Loaded plugins: fastestmirror, refresh-packagekit, security
+        .
+ 
+       .
+
+        ant-javamail.x86_64 : Optional javamail tasks for ant
+
+        eclipse-mylyn-java.x86_64 : Mylyn Bridge:  Java Development
+
+        .
+
+        .
+
+        java-1.5.0-gcj.x86_64 : JPackage runtime compatibility layer for
+
+        GCJ
+
+        java-1.5.0-gcj-devel.x86_64 : JPackage development compatibility
+
+        layer for GCJ
+
+        java-1.5.0-gcj-javadoc.x86_64 : API documentation for libgcj
+
+        java-1.6.0-openjdk.x86_64 : OpenJDK Runtime Environment
+
+        java-1.6.0-openjdk-devel.x86_64 : OpenJDK Development Environment
+
+        java-1.6.0-openjdk-javadoc.x86_64 : OpenJDK API Documentation
+
+        java-1.7.0-openjdk.x86_64 : OpenJDK Runtime Environment
+
+        jcommon-serializer.x86_64 : JFree Java General Serialization
+
+        Framework
+
+        .
+
+        .
+
+------------------------------------------------------------------------------------------------------------
+ 
+
+[root@localhost ~]# yum install java-1.7.0-openjdk.x86_64
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package java-1.7.0-openjdk.x86_64 1:1.7.0.3-2.1.el6.7 will be
+ installed
+--> Finished Dependency Resolution
+Dependencies Resolved
+.
+.
+Install       1 Package(s)
+Total download size: 25 M
+Installed size: 89 M
+Is this ok [y/N]: y
+Downloading Packages: java-1.7.0-openjdk-1.7.0.3-2.1.el6.7.x86_64.rpm                                                                                  25 MB     00:00 
+        Running rpm_check_debug 
+        Running Transaction Test 
+        Transaction Test Succeeded 
+        Running Transaction 
+   Installing : 1:java-1.7.0-openjdk-1.7.0.3-2.1.el6.7.x86_64
+1/1 
+          Verifying  : 1:java-1.7.0-openjdk-1.7.0.3-2.1.el6.7.x86_64
+1/1 
+ 
+        Installed: 
+          java-1.7.0-openjdk.x86_64 1:1.7.0.3-2.1.el6.7
+Complete! 
+
+
+------------------------------------------------------------------------------------------------------------------

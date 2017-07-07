@@ -1,0 +1,90 @@
+ node { // execute the pipeline on Master node } node('windows') {
+         // execute the pipeline on node labelled as Windows }
+		 
+------------------------------------------------------------------------
+
+ node {
+           def mvnHome
+           stage('Preparation') { // for display purposes
+              // Get PetClinic code from a GitHub repository
+              git 'https://github.com/mitesh51/spring-
+         petclinic.git'
+             // Get the Maven tool.
+             // ** NOTE: This 'apache-maven-3.3.1' Maven tool must be 
+             configured in the global configuration.
+             mvnHome = tool 'apache-maven-3.3.1'
+             }
+            stage('SonarQube analysis') {
+             // requires SonarQube Scanner 3.0+
+            def scannerHome = tool 'SonarQube Scanner 3.0.3';
+         // Sonarqube6.3 must be configured in the Jenkins
+         Configuration -> Add SonarWube server 
+                 withSonarQubeEnv('Sonarqube6.3') {
+         //provide all required properties for Sonar execution
+                     bat "${scannerHome}/bin/sonar-scanner -
+         Dsonar.host.url=http://localhost:9000/ -
+         Dsonar.login=1335c62cbfceab5
+         954a5101ab7477cc974f58d56 -
+         Dsonar.projectVersion=1.0
+         -Dsonar.projectKey=petclinicKey -
+         Dsonar.sources=src"
+                 }
+            } stage('Build') {
+                 // Run the maven build based on the Operating system
+                 if (isUnix()) {
+        sh "'${mvnHome}/bin/mvn' -
+         Dmaven.test.failure.ignore clean package"
+           // Publish JUnit Report
+               junit '**/target/surefire-reports/TEST-*.xml'
+               } else {
+                  bat(/"${mvnHome}\bin\mvn" clean package/)
+          // Publish JUnit Report
+              junit '**/target/surefire-reports/TEST-*.xml'
+
+              }
+           }
+           stage('Deploy') {
+          // Archive the artifact
+              archive 'target/*.war'
+          // Execute the PetClinic-Deploy build to deploy war file into
+          tomcat
+          // Copy Artifact from this Pipeline Project into   PetClinic-
+          Deploy using Copy Artifact plugin
+              build 'PetClinic-Deploy'
+             }
+             stage('Functional Test'){ 
+          // Checkout the code from Github to execute Functional test
+        git 'https://github.com/mitesh51/petclinic-func.git'
+        // Go to GitHub Directory and Fork it ... Change the URL in
+        petclinic-func/src/test/java/example/NewTest.java       
+       //driver.get("http://localhost:8090/petclinic/");
+        //In the same file Change location of Gecko driver, we have used
+        Firefox here on Windows...File file = new   
+        File("C:\\Users\\Mitesh\\Downloads\\geckodriver-v0.13.0-
+        win64\\geckodriver.exe");
+        // Run the maven build with test goal to execute functional test
+           bat(/"${mvnHome}\bin\mvn" test/) }
+        // This stage can be optional based on the requirements stage('Load 
+        Test'){
+        // Execute command to perform load testing with the use of Apache
+       JMeter; In our case we are using JMeter that is already installed on
+       Windows hence the bat file is used. Make sure to change this
+       location based 
+       on the Apache JMeter installation directory available in your
+       system.
+                 bat "C:/apache-jmeter-3.0/bin/jmeter.bat -
+         Jjmeter.save.saveservice.output_format=xml -n -t
+         C:/Users/Mitesh/Desktop/PetClinic.jmx -l Test.jtl"
+         // Publish Apache JMeter results
+                 perfReport errorFailedThreshold: 50,
+         errorUnstableThreshold: 30, ignoreFailedBuilds:
+         true, ignoreUnstableBuilds: true,
+         persistConstraintLog: true, sourceDataFiles:
+         'Test.jtl'
+         }
+         //Done!
+         }
+
+-------------------------------------------------------------------------------------
+
+		 

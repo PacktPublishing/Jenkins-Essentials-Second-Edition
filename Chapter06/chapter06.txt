@@ -1,0 +1,107 @@
+<project       
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0       
+        http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
+        <modelVersion>4.0.0</modelVersion> 
+        <groupId>com.tiny</groupId> 
+        <artifactId>test</artifactId> 
+        <version>0.0.1-SNAPSHOT</version> 
+        <name>test</name> 
+        <build> 
+        <plugins> 
+        <plugin> 
+        <groupId>org.apache.maven.plugins</groupId> 
+        <artifactId>maven-compiler-plugin</artifactId> 
+        <version>3.6.1</version> 
+        <configuration> 
+        <source>1.8</source> 
+        <target>1.8</target> 
+        </configuration> 
+        </plugin> 
+        <plugin> 
+        <groupId>org.apache.maven.plugins</groupId> 
+        <artifactId>maven-surefire-plugin</artifactId> 
+        <version>2.19.1</version> 
+        <configuration> 
+        <suiteXmlFiles> 
+        <suiteXmlFile>testng.xml</suiteXmlFile> 
+        </suiteXmlFiles> 
+        </configuration> 
+        </plugin> 
+        </plugins> 
+        </build> 
+        <dependencies> 
+        <dependency> 
+        <groupId>junit</groupId> 
+        <artifactId>junit</artifactId> 
+        <version>3.8.1</version> 
+        <scope>test</scope> 
+        </dependency> 
+        <dependency> 
+        <groupId>org.seleniumhq.selenium</groupId> 
+        <artifactId>selenium-java</artifactId> 
+        <version>3.0.1</version> 
+        </dependency> 
+        <dependency> 
+        <groupId>org.testng</groupId> 
+        <artifactId>testng</artifactId> 
+        <version>6.8</version> 
+        <scope>test</scope> 
+        </dependency> 
+        </dependencies> 
+        </project>
+		
+		
+	-------------------------------------------------------------------------
+	
+	<?xml version="1.0" encoding="UTF-8"?> 
+        <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"> 
+        <suite name="Suite"> 
+        <test name="Test"> 
+        <classes> 
+        <class name="example.PetClinicTest"/> 
+        </classes> 
+        </test><!-- Test --> 
+        </suite><!-- Suite --> 
+		
+	-------------------------------------------------------------------------------
+	
+	 import java.io.File;  
+        import org.openqa.selenium.WebDriver;      
+        import org.openqa.selenium.firefox.FirefoxDriver;    
+        import org.testng.Assert;      
+        import org.testng.annotations.Test;    
+        import org.testng.annotations.BeforeTest;    
+        import org.testng.annotations.AfterTest;      
+        public class PetClinicTest {      
+          private WebDriver driver;      
+            @Test          
+            public void testPetClinic() {    
+        //Change the URL based on the location where Tomcat is installed
+        and application is deployed 
+        driver.get("http://localhost:8090/petclinic/");    
+              String title = driver.getTitle();      
+        Assert.assertTrue(title.contains("a Spring 
+         Frameworkk"));   
+            }    
+            @BeforeTest 
+            public void beforeTest() {    
+              File file = new  
+        // We have used Firefox for testing; change this driver based on
+        requirements and location too
+         File("F:\\##JenkinsEssentials\\geckodriver-v0.13.0-
+          win64\\geckodriver.exe");  
+         System.setProperty("webdriver.gecko.driver", 
+         file.getAbsolutePath());        
+              driver = new FirefoxDriver();    
+            }      
+            @AfterTest 
+            public void afterTest() {  
+        driver.quit();        
+            }      
+        }    
+		
+-------------------------------------------------------------------------------------
+
+		
